@@ -1,0 +1,32 @@
+//
+//  Localizable.strings
+//  WellMind
+//
+//  Created by Erick Samuel Guerrero Arreola on 12/05/25.
+//
+
+//Welcome
+"welcome_WellMind" = "Welcome to WellMind";
+"welcome_subtitle" = "Create your wellness profile for personalized recommendations.";
+"welcome" = "Welcome";
+
+//User
+"user_name" = "Name";
+"user_birthday" = "Birtdate";
+"user_gender" = "Gender";
+"user_goal" = "Goal";
+"male" = "Male";
+"female" = "Female";
+"other" = "Other";
+"main-goals" = "Main goals";
+
+"sleep_better" = "Sleep better";
+"reduce_stress" = "Reduce stress";
+"improve_energy" = "Improve energy";
+"eat_healthier" = "Eat healthier";
+"exercise_more" = "Exercise more";
+
+
+"previous" = "Previous";
+"start" = "Start";
+"continue" = "Continue";
