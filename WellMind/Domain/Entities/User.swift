@@ -8,7 +8,10 @@
 import Foundation
 
 struct User: Identifiable {
-    let id: Int
-    let name: String
-    let email: String
+    let id: UUID = UUID()
+    var name: String = ""
+    var email: String = ""
+    var birthday: Date = .now
+    var gender: Gender = .male
+    var goals: [WellnessGoal] = []
 }

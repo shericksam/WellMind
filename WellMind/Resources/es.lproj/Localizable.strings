@@ -1,0 +1,11 @@
+//
+//  Localizable.strings
+//  WellMind
+//
+//  Created by Erick Samuel Guerrero Arreola on 12/05/25.
+//
+
+//Welcome
+"welcome_WellMind" = "Bienvenido a WellMind";
+"welcome_subtitle" = "Crea tu perfil de bienestar para recomendaciones personalizadas";
+

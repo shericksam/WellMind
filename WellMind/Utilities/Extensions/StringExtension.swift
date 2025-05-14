@@ -8,6 +8,14 @@
 import Foundation
 
 extension String {
+    var localized: String {
+        return NSLocalizedString(self, comment: "\(self)_comment")
+    }
+    
+    func localized(_ args: CVarArg...) -> String {
+        return String(format: localized, args)
+    }
+
     func toDate(format: String = "yyyy-MM-dd'T'HH:mm:ssZ") -> Date? {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = format
@@ -25,4 +33,5 @@ extension String {
         dateFormatter.dateFormat = format
         return dateFormatter.date(from: self)
     }
+    
 }

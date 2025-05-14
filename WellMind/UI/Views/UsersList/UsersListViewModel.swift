@@ -30,24 +30,24 @@ final class UsersListViewModel: ObservableObject {
     }
 
     func addUser(name: String, email: String) async {
-        let newUser = User(id: Int.random(in: 1000...9999), name: name, email: email)
-        do {
-            try await userUseCases.addUsers.execute(users: [newUser])
-            await loadUsers()
-        } catch {
-            print("Failed to add user: \(error)")
-        }
+//        let newUser = User(id: Int.random(in: 1000...9999), name: name, email: email)
+//        do {
+//            try await userUseCases.addUsers.execute(users: [newUser])
+//            await loadUsers()
+//        } catch {
+//            print("Failed to add user: \(error)")
+//        }
     }
 
     func deleteUser(at offsets: IndexSet) async {
-        do {
-            for index in offsets {
-                let user = users[index]
-                try await userUseCases.deleteUser.execute(id: user.id)
-            }
-            await loadUsers()
-        } catch {
-            print("Failed to delete user: \(error)")
-        }
+//        do {
+//            for index in offsets {
+//                let user = users[index]
+//                try await userUseCases.deleteUser.execute(id: user.id)
+//            }
+//            await loadUsers()
+//        } catch {
+//            print("Failed to delete user: \(error)")
+//        }
     }
 }

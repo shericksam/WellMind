@@ -10,6 +10,15 @@ import UIKit
 import SwiftUI
 
 extension Color {
+    static let primaryColor = Color("PrimaryColor")
+    static let secondaryColor = Color("SecondaryColor")
+    static let backgroundColor = Color("BackgroundColor")
+    static let darkBackgroundColor = Color("DarkBackgroundColor")
+    static let successColor = Color("SuccessColor")
+    static let warningColor = Color("WarningColor")
+    static let textPrimaryColor = Color("TextPrimary")
+    static let textSecondaryColor = Color("TextSecondary")
+    
     var uiColor: UIColor {
         if #available(iOS 14.0, *) {
             return UIColor(self)

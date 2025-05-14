@@ -12,21 +12,35 @@ import SwiftData
 struct WellMindApp: App {
     var sharedModelContainer: ModelContainer = {
         let schema = Schema([
-            Item.self,
             UserModel.self
         ])
         let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
 
-        do {
-            return try ModelContainer(for: schema, configurations: [modelConfiguration])
-        } catch {
-            fatalError("Could not create ModelContainer: \(error)")
+        var retryCount = 0
+        while retryCount < 3 {
+            do {
+                return try ModelContainer(for: schema, configurations: [modelConfiguration])
+            } catch {
+                print("Could not create ModelContainer: \(error)")
+                retryCount += 1
+                do {
+                    let urlApp = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).last
+                    let url = urlApp!.appendingPathComponent("default.store")
+                    if FileManager.default.fileExists(atPath: url.path) {
+                        try FileManager.default.removeItem(atPath: url.path)
+                    }
+                    print("ModelContainer deleted successfully")
+                } catch {
+                    print("Could not delete current ModelContainer: \(error)")
+                }
+            }
         }
+        fatalError("Could not create ModelContainer after 3 tries")
     }()
 
     var body: some Scene {
         WindowGroup {
-            DIContainer.makeUsersListView(context: sharedModelContainer.mainContext)
+            DIContainer.makeWelcomeView()
         }
         .modelContainer(sharedModelContainer)
     }
