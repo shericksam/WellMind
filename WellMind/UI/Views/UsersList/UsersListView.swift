@@ -14,6 +14,7 @@ struct UsersListView: View {
     @State private var newName: String = "name"
     @State private var newEmail: String = "mail@mail.com"
 
+    @AppStorage("hasSeenWelcome") var hasSeenWelcome: Bool = false
     var body: some View {
         NavigationStack {
             List {
@@ -31,6 +32,11 @@ struct UsersListView: View {
             }
             .navigationTitle("Users")
             .toolbar {
+                ToolbarItem {
+                    Button("signout") {
+                        hasSeenWelcome = false
+                    }
+                }
                 ToolbarItem(placement: .navigationBarTrailing) {
                     EditButton()
                 }

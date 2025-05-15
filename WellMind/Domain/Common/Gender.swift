@@ -9,6 +9,7 @@ enum Gender: String, Codable, CaseIterable, Identifiable {
     case male
     case female
     case other
+    case unspecified
     
     var id: String { self.rawValue }
 }

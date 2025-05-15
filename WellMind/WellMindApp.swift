@@ -10,6 +10,8 @@ import SwiftData
 
 @main
 struct WellMindApp: App {
+    @AppStorage("hasSeenWelcome") var hasSeenWelcome: Bool = false
+
     var sharedModelContainer: ModelContainer = {
         let schema = Schema([
             UserModel.self
@@ -40,7 +42,13 @@ struct WellMindApp: App {
 
     var body: some Scene {
         WindowGroup {
-            DIContainer.makeWelcomeView()
+            if hasSeenWelcome {
+                DIContainer.makeUsersListView(context: sharedModelContainer.mainContext)
+                    .transition(.move(edge: .trailing).combined(with: .opacity))
+            } else {
+                DIContainer.makeWelcomeView()
+                    .transition(.move(edge: .leading).combined(with: .opacity))
+            }
         }
         .modelContainer(sharedModelContainer)
     }

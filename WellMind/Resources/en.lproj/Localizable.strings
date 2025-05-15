@@ -26,7 +26,13 @@
 "eat_healthier" = "Eat healthier";
 "exercise_more" = "Exercise more";
 
+"user_name_required_error" = "Name required";
+"user_minimum_age_error" = "User must be at least 10 years old.";
+"user_gender_error" = "Please select a gender.";
+"user_goals_error" = "Please select at least one goal.";
 
+"welcome_journey" = "Your journey to wellness begins today";
+//Navigation controls
 "previous" = "Previous";
 "start" = "Start";
 "continue" = "Continue";

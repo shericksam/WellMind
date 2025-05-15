@@ -12,6 +12,6 @@ struct User: Identifiable {
     var name: String = ""
     var email: String = ""
     var birthday: Date = .now
-    var gender: Gender = .male
+    var gender: Gender = .unspecified
     var goals: [WellnessGoal] = []
 }

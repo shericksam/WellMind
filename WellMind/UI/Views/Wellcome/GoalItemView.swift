@@ -21,7 +21,7 @@ struct GoalItemView: View {
                 .foregroundColor(isSelected ? .primaryColor : .gray)
 
             Text(goal.rawValue.localized)
-                .foregroundColor(.primary)
+                .foregroundColor(isSelected ? .white : .primary)
                 .multilineTextAlignment(.center)
         }
         .frame(minWidth: 120, minHeight: 100)
