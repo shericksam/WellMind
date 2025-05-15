@@ -14,7 +14,7 @@ final class GetUsersUseCaseTests: XCTestCase {
         let remote = MockUserRemoteDataSource()
         let local = MockUserLocalDataSource()
         let repo = UserRepositoryImpl(remote: remote, local: local)
-        let useCase = GetUsersUseCase(repository: repo)
+        let useCase = GetUserUseCase(repository: repo)
         let users = try await useCase.execute()
         XCTAssertFalse(users.isEmpty)
     }

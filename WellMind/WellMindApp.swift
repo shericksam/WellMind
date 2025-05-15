@@ -43,10 +43,10 @@ struct WellMindApp: App {
     var body: some Scene {
         WindowGroup {
             if hasSeenWelcome {
-                DIContainer.makeUsersListView(context: sharedModelContainer.mainContext)
+                DIContainer.makeMainDashboardView(context: sharedModelContainer.mainContext)
                     .transition(.move(edge: .trailing).combined(with: .opacity))
             } else {
-                DIContainer.makeWelcomeView()
+                DIContainer.makeWelcomeView(context: sharedModelContainer.mainContext)
                     .transition(.move(edge: .leading).combined(with: .opacity))
             }
         }

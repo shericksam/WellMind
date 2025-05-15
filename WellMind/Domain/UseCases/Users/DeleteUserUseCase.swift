@@ -10,7 +10,7 @@ import Foundation
 struct DeleteUserUseCase {
     let repository: UserRepository
 
-    func execute(id: Int) async throws {
+    func execute(id: UUID) async throws {
         try await repository.deleteUser(id: id)
     }
 }

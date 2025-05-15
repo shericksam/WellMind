@@ -16,19 +16,17 @@ final class UserRepositoryImpl: UserRepository {
         self.local = local
     }
 
-    func fetchUsers() async throws -> [User] {
-        let users = try await remote.fetchUsers(path: "/users", method: "GET", headers: nil)
-        try await local.saveUsers(users)
-        return try await local.fetchUsers()
+    func getUser() async throws -> User? {
+//        let users = try await remote.fetchUsers(path: "/users", method: "GET", headers: nil)
+        try await local.load()
     }
-    func addUsers(users: [User]) async throws {
-        try await remote.addUsers(users: users, path: "/users", method: "POST", headers: nil)
-        try await local.saveUsers(users)
+
+    func saveUser(_ user: User) async throws {
+        try await local.save(user: user)
     }
     
-    func deleteUser(id: Int) async throws {
-        try await remote.deleteUser(id: id, path: "/users", method: "DELETE", headers: nil)
-        try await local.deleteUser(id: id)
+    func deleteUser(id: UUID) async throws {
+//        try await local.deleteUser(id: id)
     }
 }
 

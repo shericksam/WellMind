@@ -262,5 +262,6 @@ struct WelcomeView: View {
 }
 
 #Preview {
-    DIContainer.makeWelcomeView()
+    let preview = Preview()
+    DIContainer.makeWelcomeView(context: preview.modelContainer.mainContext)
 }

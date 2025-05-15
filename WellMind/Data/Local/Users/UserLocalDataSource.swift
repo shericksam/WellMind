@@ -9,9 +9,9 @@ import Foundation
 import SwiftData
 
 protocol UserLocalDataSource {
-    func fetchUsers() async throws -> [User]
-    func saveUsers(_ users: [User]) async throws
-    func deleteUser(id: Int) async throws
+    func save(user: User) async throws
+    func load() async throws -> User?
+    func delete(id: UUID) async throws
 }
 
 final class UserLocalDataSourceSwiftData: UserLocalDataSource {
@@ -21,27 +21,25 @@ final class UserLocalDataSourceSwiftData: UserLocalDataSource {
         self.context = context
     }
 
-    func fetchUsers() async throws -> [User] {
-//        let descriptor = FetchDescriptor<UserModel>()
-//        let models = try context.fetch(descriptor)
-//        return models.map { User(id: $0.id, name: $0.name, email: $0.email) }
-        []
+    func save(user: User) async throws {
+        let entity = user.toEntity()
+        context.insert(entity)
+        try context.save()
+    }
+    
+    func load() async throws -> User? {
+        var fetchRequest = FetchDescriptor<UserModel>()
+        fetchRequest.fetchLimit = 1
+        let results = try context.fetch(fetchRequest)
+        return results.first?.toDomain()
     }
 
-    func saveUsers(_ users: [User]) async throws {
-//        users.forEach { user in
-//            let model = UserModel(id: user.id, name: user.name, email: user.email)
-//            context.insert(model)
-//        }
-//        try context.save()
+    func delete(id: UUID) async throws {
+        let descriptor = FetchDescriptor<UserModel>(predicate: #Predicate { $0.id == id })
+        let results = try context.fetch(descriptor)
+        results.forEach { context.delete($0) }
+        try context.save()
     }
-
-    func deleteUser(id: Int) async throws {
-//        let descriptor = FetchDescriptor<UserModel>(predicate: #Predicate { $0.id == id })
-//        let results = try context.fetch(descriptor)
-//        results.forEach { context.delete($0) }
-//        try context.save()
-    }
-
+    
 }
 

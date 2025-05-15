@@ -36,7 +36,10 @@ final class WelcomeViewModel: ObservableObject {
     // MARK: - Combine
     private var cancellables = Set<AnyCancellable>()
     
-    init() {
+    private let saveUserUseCase: SaveUserUseCase
+    
+    init(saveUserUseCase: SaveUserUseCase) {
+        self.saveUserUseCase = saveUserUseCase
         setupValidation()
     }
     
@@ -134,8 +137,14 @@ final class WelcomeViewModel: ObservableObject {
     func startSaving() {
         self.selectedSegment = .onSave
 
-        DispatchQueue.main.asyncAfter(deadline: .now() + 5.5) {
-            UserDefaults.standard.set(true, forKey: "hasSeenWelcome")
+        Task {
+            do {
+                try await saveUserUseCase.execute(user: newUser)
+                try await Task.sleep(for: .seconds(4))
+                UserDefaults.standard.set(true, forKey: "hasSeenWelcome")
+            } catch {
+                print("Error:", error.localizedDescription)
+            }
         }
     }
 

@@ -8,10 +8,19 @@
 import Foundation
 
 struct User: Identifiable {
-    let id: UUID = UUID()
-    var name: String = ""
-    var email: String = ""
-    var birthday: Date = .now
-    var gender: Gender = .unspecified
-    var goals: [WellnessGoal] = []
+    var id: UUID
+    var name: String
+    var email: String
+    var birthday: Date
+    var gender: Gender
+    var goals: [WellnessGoal]
+    
+    init(id: UUID = UUID(), name: String  = "", email: String  = "", birthday: Date  = .now, gender: Gender = .unspecified , goals: [WellnessGoal] = []) {
+        self.id = id
+        self.name = name
+        self.email = email
+        self.birthday = birthday
+        self.gender = gender
+        self.goals = goals
+    }
 }
