@@ -4,7 +4,6 @@
 //
 //  Created by Erick Samuel Guerrero Arreola on 14/05/25.
 //
-
 import SwiftUI
 
 struct GoalItemView: View {
@@ -18,21 +17,24 @@ struct GoalItemView: View {
         VStack(alignment: .center, spacing: 10) {
             Image(systemName: goal.icon)
                 .font(.title)
-                .foregroundColor(isSelected ? .primaryColor : .gray)
+                .foregroundColor(isSelected ? AppColors.primary : AppColors.outline)
 
             Text(goal.rawValue.localized)
-                .foregroundColor(isSelected ? .white : .primary)
+                .foregroundColor(isSelected ? AppColors.onPrimary : AppColors.onSurface)
                 .multilineTextAlignment(.center)
         }
         .frame(minWidth: 120, minHeight: 100)
         .padding()
         .background(
             RoundedRectangle(cornerRadius: 10)
-                .fill(isSelected ? Color.primaryColor.opacity(0.1) : Color.clear)
+                .fill(isSelected ? AppColors.primaryContainer : AppColors.surfaceVariant.opacity(0.1))
         )
         .overlay(
             RoundedRectangle(cornerRadius: 10)
-                .stroke(isSelected ? Color.primaryColor : Color.gray.opacity(0.3), lineWidth: 2)
+                .stroke(
+                    isSelected ? AppColors.primary : AppColors.outline.opacity(0.3),
+                    lineWidth: 2
+                )
         )
         .scaleEffect(isPressed ? 0.95 : (isSelected ? 1.05 : 1.0))
         .animation(.spring(response: 0.3, dampingFraction: 0.4), value: isPressed)

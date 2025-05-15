@@ -104,6 +104,10 @@ final class WelcomeViewModel: ObservableObject {
         }
 
         formSubmitted = true
+        
+        if nameError != nil || birthdayError != nil || genderError != nil {
+            selectedSegment = .form
+        }
         return isValid
     }
 
@@ -122,7 +126,9 @@ final class WelcomeViewModel: ObservableObject {
     }
 
     func changeSection(_ option: ControlSection) {
-        selectedSegment.changeSection(option)
+        withAnimation {
+            selectedSegment.changeSection(option)
+        }
     }
     
     func startSaving() {

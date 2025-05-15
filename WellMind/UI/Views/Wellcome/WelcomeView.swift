@@ -8,6 +8,7 @@
 import SwiftUI
 import FloatingLabelTextFieldSwiftUI
 import Lottie
+import SwiftUI
 
 struct WelcomeView: View {
     @AppStorage("hasSeenWelcome") var hasSeenWelcome: Bool = false
@@ -18,20 +19,40 @@ struct WelcomeView: View {
 
     var body: some View {
         ZStack {
-            LinearGradient(gradient: Gradient(colors: [Color.white, Color.teal]), startPoint: .top, endPoint: .bottom)
+            AppColors.background
                 .ignoresSafeArea()
 
             VStack {
                 Spacer()
+                ZStack {
+                    LottieView(animation: .named("loading2"))
+                            .playbackMode(.playing(.fromProgress(0, toProgress: 1, loopMode: .loop)))
+                            .frame(width: 200, height: 200)
+                            .scaleEffect(isSaving ? 1.0 : 0.5)
+                            .opacity(isSaving ? 1.0 : 0.0)
+                            .animation(.spring(response: 0.4, dampingFraction: 0.6), value: isSaving)
+                            .isHidden(!isSaving)
+                    
+                    Image(.logo)
+                        .resizable()
+                        .frame(width: logoSize, height: logoSize)
+                        .scaledToFit()
+                        .animation(.easeInOut(duration: 0.3), value: viewModel.selectedSegment == .onSave)
+                }
+
                 if viewModel.selectedSegment != .onSave {
                     Text("welcome_WellMind")
                         .font(.title)
                         .bold()
-                    
+                        .foregroundColor(AppColors.primary)
+
                     Text("welcome_subtitle")
                         .font(.subheadline)
+                        .foregroundColor(AppColors.primary.opacity(0.8))
+
                     Spacer()
                 }
+
                 VStack {
                     switch viewModel.selectedSegment {
                     case .form:
@@ -48,17 +69,16 @@ struct WelcomeView: View {
                 .animation(.easeInOut(duration: 0.3), value: viewModel.selectedSegment)
                 .disabled(viewModel.selectedSegment == .onSave)
                 .padding()
-                Spacer()
                 
+                Spacer()
                 controls
-            
                 Spacer()
             }
             .multilineTextAlignment(.center)
         }
         .navigationTitle("welcome")
     }
-    
+
     @ViewBuilder
     var controls: some View {
         HStack(spacing: 16) {
@@ -70,12 +90,12 @@ struct WelcomeView: View {
                 }) {
                     Text("previous".localized)
                         .fontWeight(.medium)
-                        .foregroundColor(.white)
+                        .foregroundColor(AppColors.primaryContainer)
                         .padding(.horizontal, 24)
                         .padding(.vertical, 12)
                         .background(
                             Capsule()
-                                .stroke(Color.white, lineWidth: 1.5)
+                                .stroke(AppColors.primaryContainer, lineWidth: 1.5)
                         )
                 }
                 .buttonStyle(PlainButtonStyle())
@@ -95,58 +115,66 @@ struct WelcomeView: View {
                 }) {
                     Text(viewModel.selectedSegment == .goals ? "start".localized : "continue".localized)
                         .fontWeight(.semibold)
-                        .foregroundColor(viewModel.selectedSegment == .goals && !viewModel.isAllValid && viewModel.formSubmitted ? .gray : .primaryColor)
+                        .foregroundColor(
+                            viewModel.selectedSegment == .goals && !viewModel.isAllValid && viewModel.formSubmitted
+                            ? AppColors.onSurfaceVariant
+                            : AppColors.primary
+                        )
                         .padding(.horizontal, 28)
                         .padding(.vertical, 14)
                         .background(
                             viewModel.selectedSegment == .goals && !viewModel.isAllValid && viewModel.formSubmitted
-                            ? Color.white.opacity(0.5)
-                            : Color.white
+                            ? AppColors.surface.opacity(0.5)
+                            : AppColors.surface
                         )
                         .clipShape(Capsule())
-                        .shadow(color: Color.primaryColor.opacity(0.3), radius: 4, x: 0, y: 2)
+                        .shadow(color: AppColors.primary.opacity(0.3), radius: 2, x: 0, y: 2)
                 }
                 .disabled(viewModel.selectedSegment == .goals && viewModel.formSubmitted && !viewModel.isAllValid)
-            } 
+            }
         }
         .padding(.horizontal)
     }
 
-    
     @ViewBuilder
     var userInitForm: some View {
         VStack(alignment: .leading, spacing: 20) {
             VStack(spacing: 5) {
                 FloatingLabelTextField($viewModel.newUser.name, placeholder: "user_name".localized)
-                    .titleColor(.gray)
-                    .selectedLineColor(.gray)
-                    .selectedTextColor(.primary)
-                    .selectedTitleColor(.primary)
+                    .titleColor(AppColors.outline)
+                    .selectedLineColor(AppColors.outline)
+                    .selectedTextColor(AppColors.onSurface)
+                    .selectedTitleColor(AppColors.onSurface)
+                    .tint(AppColors.primary)
+
                 if let error = viewModel.nameError {
                     HStack {
                         Text(error)
                             .font(.caption)
-                            .foregroundColor(.red)
+                            .foregroundColor(AppColors.error)
                             .multilineTextAlignment(.leading)
                         Spacer()
                     }
                 }
             }
+
             VStack(spacing: 5) {
                 HStack {
                     VStack(alignment: .leading, spacing: 6) {
                         Text("user_birthday".localized)
                             .font(.subheadline)
-                            .foregroundColor(.gray)
-                        
+                            .foregroundColor(AppColors.outline)
+
                         DatePicker("", selection: $viewModel.newUser.birthday, displayedComponents: .date)
                             .labelsHidden()
                             .datePickerStyle(.compact)
-                            .accentColor(.primary)
+                            .accentColor(AppColors.primary)
+                            .tint(AppColors.primary)
+
                         if let error = viewModel.birthdayError {
                             Text(error)
                                 .font(.caption)
-                                .foregroundColor(.red)
+                                .foregroundColor(AppColors.error)
                                 .multilineTextAlignment(.leading)
                         }
                     }
@@ -158,20 +186,22 @@ struct WelcomeView: View {
                 VStack(alignment: .leading, spacing: 6) {
                     Text("user_gender".localized)
                         .font(.subheadline)
-                        .foregroundColor(.gray)
-                    
+                        .foregroundColor(AppColors.outline)
+
                     Picker("", selection: $viewModel.newUser.gender) {
                         ForEach(Gender.allCases) { gender in
                             Text(gender.rawValue.capitalized).tag(gender)
                         }
                     }
                     .pickerStyle(.segmented)
+                    .tint(AppColors.primary)
                 }
+
                 if let error = viewModel.genderError {
                     HStack {
                         Text(error)
                             .font(.caption)
-                            .foregroundColor(.red)
+                            .foregroundColor(AppColors.error)
                             .multilineTextAlignment(.leading)
                         Spacer()
                     }
@@ -187,6 +217,8 @@ struct WelcomeView: View {
             Text("main-goals")
                 .font(.title3)
                 .bold()
+                .foregroundColor(AppColors.onBackground)
+
             LazyVGrid(columns: adaptiveColumn, spacing: 20) {
                 ForEach(WellnessGoal.allCases) { goal in
                     GoalItemView(
@@ -196,36 +228,36 @@ struct WelcomeView: View {
                     )
                 }
             }
+
             if let error = viewModel.goalsError {
                 Text(error)
                     .font(.caption)
-                    .foregroundColor(.red)
+                    .foregroundColor(AppColors.error)
                     .multilineTextAlignment(.center)
             }
         }
     }
-    
+
     @ViewBuilder
     var onSaveView: some View {
         VStack {
-            ZStack {
-                LottieView(animation: .named("loading2"))
-                    .playbackMode(.playing(.fromProgress(0, toProgress: 1, loopMode: .loop)))
-                    .frame(width: 200, height: 200)
-                
-                Image(.logo)
-                    .resizable()
-                    .frame(width: 200, height: 200)
-                    .scaledToFit()
-            }
             Text("welcome_journey")
                 .font(.title)
                 .bold()
-            
+                .foregroundColor(AppColors.primary)
+
             LottieView(animation: .named("dots"))
                 .playbackMode(.playing(.fromProgress(0, toProgress: 1, loopMode: .loop)))
                 .frame(height: 200)
         }
+    }
+    
+    var logoSize: CGFloat {
+        viewModel.selectedSegment == .onSave ? 200 : 100
+    }
+    
+    var isSaving: Bool {
+        viewModel.selectedSegment == .onSave
     }
 }
 
