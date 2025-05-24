@@ -23,7 +23,7 @@ struct GoalItemView: View {
                 .foregroundColor(isSelected ? AppColors.onPrimary : AppColors.onSurface)
                 .multilineTextAlignment(.center)
         }
-        .frame(minWidth: 120, minHeight: 100)
+        .frame(minWidth: 120, minHeight: 90)
         .padding()
         .background(
             RoundedRectangle(cornerRadius: 10)

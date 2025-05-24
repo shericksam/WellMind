@@ -7,12 +7,12 @@
 
 extension User {
     func toEntity() -> UserModel {
-        .init(id: id, name: name, email: email, birthday: birthday, gender: gender, goals: goals)
+        .init(id: id, name: name, email: email, birthday: birthday, gender: gender, goals: goals, timestamp: timestamp)
     }
 }
 
 extension UserModel {
     func toDomain() -> User {
-        .init(id: id, name: name, email: email, birthday: birthday, gender: gender, goals: goals)
+        .init(id: id, name: name, email: email, birthday: birthday, gender: gender, goals: goals, timestamp: timestamp)
     }
 }

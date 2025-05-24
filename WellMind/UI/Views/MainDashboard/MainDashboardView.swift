@@ -6,11 +6,17 @@
 //
 
 import SwiftUI
-
+import SwiftData
 
 struct MainDashboardView: View {
     @StateObject var viewModel: MainDashboardViewModel
-
+    @Query({
+        var desc = FetchDescriptor<UserModel>()
+      desc.sortBy = [SortDescriptor(\.timestamp, order: .reverse)]
+      desc.fetchLimit = 10
+      return desc
+    }()) var top10Items: [UserModel]
+    
     var body: some View {
         NavigationStack {
             ZStack {
@@ -19,21 +25,18 @@ struct MainDashboardView: View {
 
                 ScrollView {
                     VStack(alignment: .leading, spacing: 24) {
-                        // Saludo
-                        Text("Hola, \(viewModel.user?.name ?? "") 👋")
+                        Text("greeting".localized(viewModel.user?.name ?? ""))
                             .font(.largeTitle.bold())
                             .foregroundColor(AppColors.primary)
 
-                        // Tarjetas de resumen
                         summaryCards
 
-                        // Recomendación del día
                         VStack(alignment: .leading, spacing: 8) {
-                            Text("Recomendación del día")
+                            Text("daily_recommendation")
                                 .font(.headline)
                                 .foregroundColor(AppColors.primary)
 
-                            Text("Hoy intenta respirar profundo por 1 minuto.")
+                            Text("recommendation_1")
                                 .font(.subheadline)
                                 .foregroundColor(AppColors.onBackground)
                                 .padding()
@@ -41,7 +44,6 @@ struct MainDashboardView: View {
                                 .clipShape(RoundedRectangle(cornerRadius: 12))
                         }
 
-                        // Botones
                         actionButtons
                     }
                     .padding()
@@ -49,16 +51,20 @@ struct MainDashboardView: View {
             }
             .task {
                 await viewModel.loadUser()
+                viewModel.healthManagerRequestAuthorization()
             }
-            .navigationTitle("Resumen")
+            .onAppear(perform: {
+                print(top10Items)
+            })
+            .navigationTitle("summary")
         }
     }
 
     var summaryCards: some View {
         LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 16) {
             SummaryCard(title: "Estado de ánimo", value: "😊", color: AppColors.secondary)
-            SummaryCard(title: "Sueño", value: "7h 45m", color: AppColors.tertiary)
-            SummaryCard(title: "Pasos", value: "---", color: AppColors.outline)
+            SummaryCard(title: "Sueño", value: "\(viewModel.healthManager.sleepHours)", color: AppColors.tertiary)
+            SummaryCard(title: "Pasos", value: "\(viewModel.healthManager.stepCount)", color: AppColors.outline)
         }
     }
 

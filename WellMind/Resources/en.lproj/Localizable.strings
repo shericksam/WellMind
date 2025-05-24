@@ -18,7 +18,7 @@
 "male" = "Male";
 "female" = "Female";
 "other" = "Other";
-"main-goals" = "Main goals";
+"main_goals" = "Main goals";
 
 "sleep_better" = "Sleep better";
 "reduce_stress" = "Reduce stress";
@@ -36,3 +36,10 @@
 "previous" = "Previous";
 "start" = "Start";
 "continue" = "Continue";
+
+//MainDashboard
+"greeting" = "Hello, %@ 👋";
+"daily_recommendation" = "Recommendation of the day";
+"summary" = "Summary";
+
+"recommendation_1" = "Today try to breathe deeply for 1 minute.";

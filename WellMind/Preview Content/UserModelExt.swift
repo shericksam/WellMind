@@ -9,6 +9,6 @@ import Foundation
 
 extension UserModel {
     static var sampleItem: UserModel {
-        UserModel(id: UUID(), name: "Test 1", email: "a1@a.com", birthday: Date(), gender: .male, goals: [.ImproveEnergy])
+        UserModel(id: UUID(), name: "Test 1", email: "a1@a.com", birthday: Date(), gender: .male, goals: [.ImproveEnergy], timestamp: .now)
     }
 }

@@ -24,11 +24,14 @@ struct SummaryCard: View {
         }
         .frame(maxWidth: .infinity, minHeight: 100)
         .padding()
-        .background(AppColors.surface)
-        .clipShape(RoundedRectangle(cornerRadius: 16))
-        .shadow(color: color.opacity(0.1), radius: 4, x: 0, y: 2)
+        .card(showBorder: false)
     }
 }
 #Preview {
-    SummaryCard(title: "Title", value: "Value", color: .blue)
+    SummaryCard(title: "Title", value: "😊", color: AppColors.secondary)
+        .padding()
+    SummaryCard(title: "Title", value: "7h 45m", color: AppColors.tertiary)
+        .padding()
+    SummaryCard(title: "Title", value: "---", color: AppColors.outline)
+        .padding()
 }

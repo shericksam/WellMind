@@ -6,24 +6,48 @@
 //
 
 import SwiftUI
-
 struct CardModifier: ViewModifier {
-    var cornerRadius: CGFloat = 8
-    var x: CGFloat = 6, y: CGFloat = 8
+    var cornerRadius: CGFloat = 22
+    var showBorder: Bool = false
+    var borderColor: Color = AppColors.outline
+    var borderWidth: CGFloat = 1
+    var shadowRadius: CGFloat = 6
+    var shadowOpacity: Double = 0.08
 
     func body(content: Content) -> some View {
         content
-            .background(.white)
-            .cornerRadius(10)
-            .overlay(
-                RoundedRectangle(cornerRadius: 10)
-                    .stroke(.gray, lineWidth: 2)
+            .background(
+                RoundedRectangle(cornerRadius: cornerRadius)
+                    .fill(AppColors.surface)
             )
+            .if(showBorder) { view in
+                view.overlay(
+                    RoundedRectangle(cornerRadius: cornerRadius)
+                        .stroke(borderColor, lineWidth: borderWidth)
+                )
+            }
+            .shadow(color: Color.black.opacity(shadowOpacity),
+                    radius: shadowRadius, x: 0, y: 2)
     }
 }
 
 extension View {
-    func card(cornerRadius: CGFloat = 8, x: CGFloat = 6, y: CGFloat = 8) -> some View {
-        modifier(CardModifier(cornerRadius: cornerRadius, x: x, y: y))
+    func card(
+        cornerRadius: CGFloat = 16,
+        showBorder: Bool = false,
+        borderColor: Color = AppColors.outline,
+        borderWidth: CGFloat = 1,
+        shadowRadius: CGFloat = 6,
+        shadowOpacity: Double = 0.08
+    ) -> some View {
+        modifier(CardModifier(
+            cornerRadius: cornerRadius,
+            showBorder: showBorder,
+            borderColor: borderColor,
+            borderWidth: borderWidth,
+            shadowRadius: shadowRadius,
+            shadowOpacity: shadowOpacity
+        ))
     }
 }
+

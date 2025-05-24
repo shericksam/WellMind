@@ -16,13 +16,15 @@ class UserModel {
     var birthday: Date
     var gender: Gender
     var goals: [WellnessGoal]
+    var timestamp: Date
     
-    init(id: UUID, name: String, email: String, birthday: Date, gender: Gender, goals: [WellnessGoal]) {
+    init(id: UUID, name: String, email: String, birthday: Date, gender: Gender, goals: [WellnessGoal], timestamp: Date) {
         self.id = id
         self.name = name
         self.email = email
         self.birthday = birthday
         self.gender = gender
         self.goals = goals
+        self.timestamp = timestamp
     }
 }

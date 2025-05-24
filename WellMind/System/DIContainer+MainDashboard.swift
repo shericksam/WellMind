@@ -15,8 +15,9 @@ extension DIContainer {
         let local = UserLocalDataSourceSwiftData(context: context)
         let repository = UserRepositoryImpl(remote: remote, local: local)
         let getUserUseCase = GetUserUseCase(repository: repository)
+        let healthManager = HealthManager()
         
-        let viewModel = MainDashboardViewModel(getUserUseCase: getUserUseCase)
+        let viewModel = MainDashboardViewModel(getUserUseCase: getUserUseCase, healthManager: healthManager)
         return MainDashboardView(viewModel: viewModel)
     }
 }

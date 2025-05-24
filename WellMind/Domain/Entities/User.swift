@@ -14,13 +14,15 @@ struct User: Identifiable {
     var birthday: Date
     var gender: Gender
     var goals: [WellnessGoal]
+    var timestamp: Date
     
-    init(id: UUID = UUID(), name: String  = "", email: String  = "", birthday: Date  = .now, gender: Gender = .unspecified , goals: [WellnessGoal] = []) {
+    init(id: UUID = UUID(), name: String  = "", email: String  = "", birthday: Date  = .now, gender: Gender = .unspecified , goals: [WellnessGoal] = [], timestamp: Date  = .now) {
         self.id = id
         self.name = name
         self.email = email
         self.birthday = birthday
         self.gender = gender
         self.goals = goals
+        self.timestamp = timestamp
     }
 }

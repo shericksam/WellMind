@@ -14,7 +14,7 @@ struct WelcomeView: View {
     @AppStorage("hasSeenWelcome") var hasSeenWelcome: Bool = false
     @StateObject var viewModel: WelcomeViewModel
     private let adaptiveColumn = [
-        GridItem(.adaptive(minimum: 180))
+        GridItem(.adaptive(minimum: 130))
     ]
 
     var body: some View {
@@ -214,21 +214,21 @@ struct WelcomeView: View {
     @ViewBuilder
     var goalsView: some View {
         VStack(alignment: .center, spacing: 20) {
-            Text("main-goals")
+            Text("main_goals")
                 .font(.title3)
                 .bold()
                 .foregroundColor(AppColors.onBackground)
-
-            LazyVGrid(columns: adaptiveColumn, spacing: 20) {
-                ForEach(WellnessGoal.allCases) { goal in
-                    GoalItemView(
-                        goal: goal,
-                        isSelected: viewModel.isGoalSelected(goal),
-                        onTap: { viewModel.ontapGoal(goal) }
-                    )
+            ScrollView {
+                LazyVGrid(columns: adaptiveColumn, spacing: 20) {
+                    ForEach(WellnessGoal.allCases) { goal in
+                        GoalItemView(
+                            goal: goal,
+                            isSelected: viewModel.isGoalSelected(goal),
+                            onTap: { viewModel.ontapGoal(goal) }
+                        )
+                    }
                 }
             }
-
             if let error = viewModel.goalsError {
                 Text(error)
                     .font(.caption)
